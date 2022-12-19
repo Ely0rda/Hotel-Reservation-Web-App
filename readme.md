@@ -1,4 +1,4 @@
-# Booking wep abbp
+# Booking wep app
 This a repository for a booking and reservations web applicaiton.
 A beginner project I am working on to get started with the go language
 
