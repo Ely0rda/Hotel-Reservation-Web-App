@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,6 +9,7 @@ import (
 
 	"github.com/Ely0rda/bookings/internal/config"
 	"github.com/Ely0rda/bookings/internal/handlers"
+	"github.com/Ely0rda/bookings/internal/models"
 	"github.com/Ely0rda/bookings/internal/render"
 	"github.com/alexedwards/scs/v2"
 )
@@ -18,6 +20,29 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+	err := run()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(fmt.Sprintf("Starting application on port: %s ", portNumber))
+
+	srv := &http.Server{
+		Addr:    portNumber,
+		Handler: routes(&app),
+	}
+
+	err = srv.ListenAndServe()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func run() error {
+
+	//To store a complex type into our session
+	//we need to tell golang about that
+	//and this is how we do it
+	gob.Register(models.Reservation{})
 	//Change this to thrue In production
 	app.InProduction = false
 	// Initialize a new session manager and configure the session lifetime.
@@ -38,6 +63,7 @@ func main() {
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
+		return err
 	}
 
 	app.TemplateCache = tc
@@ -48,15 +74,6 @@ func main() {
 	render.NewTemplates(&app)
 
 	// _ = http.ListenAndServe(portNumber, nil)
-	fmt.Println(fmt.Sprintf("Starting application on port: %s ", portNumber))
 
-	srv := &http.Server{
-		Addr:    portNumber,
-		Handler: routes(&app),
-	}
-
-	err = srv.ListenAndServe()
-	if err != nil {
-		log.Fatal(err)
-	}
+	return nil
 }

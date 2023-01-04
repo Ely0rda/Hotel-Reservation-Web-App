@@ -152,6 +152,18 @@
                 confirmButtonText: confirmationButtonText
             })
         }
+        //if the template td.Error has some value display a notification error
+        {{with .Error}}
+        notify("{{.}}","error")
+        {{end}}
+        //if the template td.Suceess has some value display a notification "success"
+        {{with .Flash}}
+        notify("{{.}}","success")
+        {{end}}
+        //if the template td.Warning has ome value display a notification "warning"
+        {{with .Warning}}
+        notify("{{.}}","success")
+        {{end}}
 
         function Prompt() {
             let toast = function (c) {
