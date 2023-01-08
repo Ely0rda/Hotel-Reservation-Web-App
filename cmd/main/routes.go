@@ -36,7 +36,7 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Post("/search-availability", handlers.Repo.PostAvailability)
 	mux.Post("/search-availability-json", handlers.Repo.AvailabilityJSON)
 
-	FileServer(mux, "/static/", http.Dir("../../static"))
+	FileServer(mux, "/static/", http.Dir("./static"))
 
 	return mux
 }

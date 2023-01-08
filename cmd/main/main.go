@@ -18,6 +18,8 @@ const portNumber string = ":8080"
 
 var app config.AppConfig
 var session *scs.SessionManager
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 func main() {
 	err := run()
@@ -45,6 +47,7 @@ func run() error {
 	gob.Register(models.Reservation{})
 	//Change this to thrue In production
 	app.InProduction = false
+
 	// Initialize a new session manager and configure the session lifetime.
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour

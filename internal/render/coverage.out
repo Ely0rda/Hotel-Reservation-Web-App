@@ -1,0 +1,23 @@
+mode: set
+github.com/Ely0rda/bookings/internal/render/render.go:21.40,23.2 1 1
+github.com/Ely0rda/bookings/internal/render/render.go:25.84,34.2 5 1
+github.com/Ely0rda/bookings/internal/render/render.go:96.105,99.18 2 1
+github.com/Ely0rda/bookings/internal/render/render.go:106.2,107.9 2 1
+github.com/Ely0rda/bookings/internal/render/render.go:112.2,119.16 5 1
+github.com/Ely0rda/bookings/internal/render/render.go:123.2,123.12 1 1
+github.com/Ely0rda/bookings/internal/render/render.go:99.18,102.3 1 0
+github.com/Ely0rda/bookings/internal/render/render.go:102.8,104.3 1 1
+github.com/Ely0rda/bookings/internal/render/render.go:107.9,110.3 1 1
+github.com/Ely0rda/bookings/internal/render/render.go:119.16,122.3 2 0
+github.com/Ely0rda/bookings/internal/render/render.go:192.67,197.16 3 1
+github.com/Ely0rda/bookings/internal/render/render.go:201.2,201.29 1 1
+github.com/Ely0rda/bookings/internal/render/render.go:223.2,223.21 1 1
+github.com/Ely0rda/bookings/internal/render/render.go:197.16,199.3 1 0
+github.com/Ely0rda/bookings/internal/render/render.go:201.29,204.17 3 1
+github.com/Ely0rda/bookings/internal/render/render.go:208.3,209.17 2 1
+github.com/Ely0rda/bookings/internal/render/render.go:213.3,213.23 1 1
+github.com/Ely0rda/bookings/internal/render/render.go:220.3,220.21 1 1
+github.com/Ely0rda/bookings/internal/render/render.go:204.17,206.4 1 0
+github.com/Ely0rda/bookings/internal/render/render.go:209.17,211.4 1 0
+github.com/Ely0rda/bookings/internal/render/render.go:213.23,215.18 2 1
+github.com/Ely0rda/bookings/internal/render/render.go:215.18,217.5 1 0

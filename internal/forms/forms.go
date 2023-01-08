@@ -1,8 +1,9 @@
 package forms
 
 import (
+	"errors"
+
 	"fmt"
-	"net/http"
 	"net/url"
 	"strings"
 
@@ -18,7 +19,7 @@ type Form struct {
 	//type Values map[string][]string
 	//for form values
 	url.Values
-	Errors errors
+	Errors Errors
 }
 
 // Valid return true if there are no errors
@@ -31,7 +32,7 @@ func (f *Form) Valid() bool {
 func New(data url.Values) *Form {
 	return &Form{
 		data,
-		errors(map[string][]string{}),
+		Errors(map[string][]string{}),
 		//errors(map[string][]string{}),
 	}
 }
@@ -49,18 +50,16 @@ func (f *Form) Required(fields ...string) {
 
 //Has checks if form fields is in post and not empty
 
-func (f *Form) Has(field string, r *http.Request) bool {
-	x := r.Form.Get(field)
+func (f *Form) Has(field string) bool {
+	x := f.Get(field)
 
-	if x == "" {
-	}
-	return true
+	return x != ""
 }
 
 // MinLength checking the length of the fields
 
-func (f *Form) MinLength(field string, length int, r *http.Request) bool {
-	x := r.Form.Get(field)
+func (f *Form) MinLength(field string, length int) bool {
+	x := f.Get(field)
 	if len(x) < length {
 		f.Errors.Add(field, fmt.Sprintf("This field must be at least %d characters long", length))
 		return false
@@ -69,8 +68,10 @@ func (f *Form) MinLength(field string, length int, r *http.Request) bool {
 }
 
 // IsEmail checking the corecteness of an email
-func (f *Form) IsEmail(field string) {
+func (f *Form) IsEmail(field string) error {
 	if !govalidator.IsEmail(f.Get(field)) {
 		f.Errors.Add(field, "Invalid email address")
+		return errors.New("can't get template from cache")
 	}
+	return nil
 }
