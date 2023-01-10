@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/Ely0rda/bookings/internal/config"
 	"github.com/Ely0rda/bookings/internal/forms"
+	"github.com/Ely0rda/bookings/internal/helpers"
 	"github.com/Ely0rda/bookings/internal/models"
 
 	"github.com/Ely0rda/bookings/internal/render"
@@ -48,8 +49,8 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	stringMap := make(map[string]string)
-	stringMap["test"] = "Hello, mad scientist"
+	// stringMap := make(map[string]string)
+	// stringMap["test"] = "Hello, mad scientist"
 	//-----------------getting the ip and then printing it-----------
 	// //getting the ipaddess from the session
 	// remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
@@ -57,9 +58,7 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	// stringMap["remote_ip"] = remoteIP
 	//--------------------------------------------------------------
 	render.RenderTemplate(w, r, "about.page.html",
-		&models.TemplateData{
-			StringMap: stringMap,
-		})
+		&models.TemplateData{})
 
 }
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
@@ -83,8 +82,9 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	//and allow us to use functions r.Form.Get, so we can check the data that
 	//was sent
 	err := r.ParseForm()
+
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
 		return
 	}
 	reservation := models.Reservation{
@@ -129,7 +129,8 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	//rendered
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-		log.Println("cannot get item from session")
+		helpers.ServerError(errors.New("Can't find reservation in the session"))
+
 		//If the resrvation var is not in the session this means that
 		//probably the user pass to this page before make-resrvation
 		//this why we will create an error to be shown in the next
@@ -178,7 +179,8 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	}
 	out, err := json.MarshalIndent(resp, "", "     ")
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")

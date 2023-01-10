@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/Ely0rda/bookings/internal/config"
 	"github.com/Ely0rda/bookings/internal/handlers"
+	"github.com/Ely0rda/bookings/internal/helpers"
 	"github.com/Ely0rda/bookings/internal/models"
 	"github.com/Ely0rda/bookings/internal/render"
 	"github.com/alexedwards/scs/v2"
@@ -47,7 +49,10 @@ func run() error {
 	gob.Register(models.Reservation{})
 	//Change this to thrue In production
 	app.InProduction = false
-
+	app.InfoLog = infoLog
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog = log.New(os.Stdout, "Error\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
 	// Initialize a new session manager and configure the session lifetime.
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
@@ -75,6 +80,7 @@ func run() error {
 	handlers.NewHandlers(repo)
 
 	render.NewTemplates(&app)
+	helpers.NewHelpers(&app)
 
 	// _ = http.ListenAndServe(portNumber, nil)
 
