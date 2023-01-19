@@ -129,7 +129,7 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	//rendered
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-		helpers.ServerError(errors.New("Can't find reservation in the session"))
+		helpers.ServerError(w, errors.New("Can't find reservation in the session"))
 
 		//If the resrvation var is not in the session this means that
 		//probably the user pass to this page before make-resrvation
