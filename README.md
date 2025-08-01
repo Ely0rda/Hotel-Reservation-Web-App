@@ -58,9 +58,9 @@ The application follows a clean architecture approach with clear separation of c
 
 The app uses the repository pattern to abstract database operations and middleware for cross-cutting concerns.
 
-## Screenshots
+<!-- ## Screenshots
 
-(Screenshots would be placed here)
+(Screenshots would be placed here) -->
 
 ## Installation
 
